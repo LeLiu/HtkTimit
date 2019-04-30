@@ -1,0 +1,4 @@
+export TIMIT_WORK_ROOT=$HOME/timit
+export TIMIT_DATA_PATH=$TIMIT_WORK_ROOT/data
+
+export LC_ALL=C
