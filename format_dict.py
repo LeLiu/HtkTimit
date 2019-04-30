@@ -8,6 +8,7 @@ import argparse
 def format_dict_line(line):
     line = line.replace('/', '')
     word, *phones = line.split()
+    word = word.split('~')[0]
     word = word.upper()
     line = ' '.join([word] + list(phones))
     return line
