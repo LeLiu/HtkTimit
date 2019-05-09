@@ -26,6 +26,7 @@ HDMan -m -e $exp/ded -w $exp/train_wlist -n $exp/monophones -l $log/dlog $exp/di
 # create mlf file.
 python trans2mlf.py $exp/train_trans $exp/train_mlf || exit 1
 
-if [! -d $exp/feat ]; then mkdir -p $exp/feat || exit 1; fi
+if [ ! -d $exp/feat ]; then mkdir -p $exp/feat || exit 1; fi
+python gen_feat_scp.py $data/train $exp/feat $exp/train_feat_scp || exit 1
 
-
+HCopy -T 1 -A -D -C config/mfcc.config -S exp/train_feat_scp

@@ -28,10 +28,19 @@ def write_dict(dic, file_path):
             line_num += 1
     return line_num
 
+def make_feat_dirs(feat_path_list):
+    feat_dirs = map(lambda x: os.path.dirname(x), feat_path_list)
+    feat_dirs = set(feat_dirs)
+    for fd in feat_dirs:
+        os.makedirs(fd, exist_ok=True)
+    return len(feat_dirs)
+
 def gen_feat_scp(wave_dir, feat_dir, feat_scp):
     wave_list = gen_wave_list(wave_dir)
-    feat_list = list(map(lambda x : x.replace(wave_dir, feat_dir, 1), wave_list))
+    feat_list = list(map(lambda x : x.replace(wave_dir, feat_dir, 1).replace('.wav', '.feat'), wave_list))
+    make_feat_dirs(feat_list)
     wave_feat_dict = dict(zip(wave_list, feat_list))
+
     return write_dict(wave_feat_dict, feat_scp)
 
 def _parse_args():
