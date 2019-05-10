@@ -10,7 +10,7 @@ def read_hmm_proto(proto_file):
     with open(proto_file, 'r') as f:
         lines = f.readlines()
         for idx, line in enumerate(lines):
-            if line.startwith('~h'):
+            if line.startswith('~h'):
                 macros = lines[:idx]
                 proto = lines[idx:]
     return macros, proto
@@ -24,6 +24,7 @@ def gen_hmmdefs(proto_file, name_list, def_file):
     macros, proto = read_hmm_proto(proto_file)
     names = util.read_list(name_list)
     hmmdefs = macros
+    hmmdefs.append('\n')
     for name in names:
         hmmdef = clone_hmmdef(proto, name)
         hmmdefs.extend(hmmdef)

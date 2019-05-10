@@ -6,7 +6,7 @@ log=log
 
 if [ ! -d $exp ]; then mkdir -p $exp || exit 1; fi
 if [ ! -d $log ]; then mkdir -p $log || exit 1; fi
-
+<< COMMENT
 # create transcription file for training set.
 python gen_trans.py $data/train $exp/train_trans || exit 1
 
@@ -34,6 +34,8 @@ python gen_feat_scp.py $data/train $exp/feat $exp/train_feat_scp || exit 1
 HCopy -D -A -T 1 -C config/hcopy.conf -S exp/train_feat_scp
 
 awk '{print $2}' $exp/train_feat_scp > $exp/train_scp
-HCompV -C config/hcompv.conf -f 0.01 -m -S $exp/train_scp -M hmm/0 hmm/proto
+HCompV -D -A -T 1 -C config/hcompv.conf -f 0.01 -m -S $exp/train_scp -M hmm/0 hmm/proto
+COMMENT
+python gen_hmmdefs.py hmm/0/proto $exp/monophones hmm/0/hmmdefs
 
 
