@@ -6,31 +6,6 @@ import argparse
 import logging
 import util
 
-"""
-def dir_to_path_list(dir_path, path_list, ext_name):
-    for file_name in os.listdir(dir_path):
-        file_path = os.path.join(dir_path, file_name)
-        if os.path.isdir(file_path):
-            dir_to_path_list(file_path, path_list, ext_name)
-        elif os.path.isfile(file_path):
-            _, ext = os.path.splitext(file_path)
-            if ext.lower() == ext_name.lower() or ext_name == '.*':
-                path_list.append(file_path)
-    return path_list
-
-
-def gen_trans_file_list(dir_path):
-    trans_list = []
-    return dir_to_path_list(dir_path, trans_list, '.txt')
-def write_dict(dic, file_path):
-    line_num = 0
-    with open(file_path, 'w') as f:
-        for key in dic:
-            f.write('{0} {1}\n'.format(key, dic[key]))
-            line_num += 1
-    return line_num
-"""
-
 def format_word(word):
     word = word.split('~')[0]
     chrs =  list(filter(lambda c : c.isalpha() or c == "'" or c == "-", word))

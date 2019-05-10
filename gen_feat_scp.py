@@ -4,29 +4,7 @@
 import os
 import argparse
 import logging
-
-def dir_to_path_list(dir_path, path_list, ext_name):
-    for file_name in os.listdir(dir_path):
-        file_path = os.path.join(dir_path, file_name)
-        if os.path.isdir(file_path):
-            dir_to_path_list(file_path, path_list, ext_name)
-        elif os.path.isfile(file_path):
-            _, ext = os.path.splitext(file_path)
-            if ext.lower() == ext_name.lower() or ext_name == '.*':
-                path_list.append(file_path)
-    return path_list
-
-def gen_wave_list(dir_path):
-    wave_list = []
-    return dir_to_path_list(dir_path, wave_list, '.wav')
-
-def write_dict(dic, file_path):
-    line_num = 0
-    with open(file_path, 'w') as f:
-        for key in dic:
-            f.write('{0} {1}\n'.format(key, dic[key]))
-            line_num += 1
-    return line_num
+import util
 
 def make_feat_dirs(feat_path_list):
     feat_dirs = map(lambda x: os.path.dirname(x), feat_path_list)
@@ -36,15 +14,14 @@ def make_feat_dirs(feat_path_list):
     return len(feat_dirs)
 
 def gen_feat_scp(wave_dir, feat_dir, feat_scp):
-    wave_list = gen_wave_list(wave_dir)
+    wave_list = util.gen_path_list(wave_dir, ext='.wav')
     feat_list = list(map(lambda x : x.replace(wave_dir, feat_dir, 1).replace('.wav', '.feat'), wave_list))
     make_feat_dirs(feat_list)
     wave_feat_dict = dict(zip(wave_list, feat_list))
 
-    return write_dict(wave_feat_dict, feat_scp)
+    return util.write_dict(wave_feat_dict, feat_scp)
 
 def _parse_args():
-
     parser = argparse.ArgumentParser(
         description='generate a feature extration script file')
 

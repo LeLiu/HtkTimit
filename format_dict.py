@@ -6,20 +6,6 @@ import argparse
 import logging
 import util
 
-"""
-def format_dict_line(line):
-    line = line.replace('/', '')
-    word, *phones = line.split()
-    word = word.split('~')[0]
-    #if word[0] == '-' or word[0] == "'":
-    #    word = word[1:]
-    #elif word[-1] == '-' or word[-1] == "'":
-    #    word = word[:-1]
-    word = word.upper()
-    line = ' '.join([word] + list(phones))
-    return line
-"""
-
 def format_word(word):
     word = word.split('~')[0]
     chrs =  list(filter(lambda c : c.isalpha() or c == "'" or c == "-", word))
