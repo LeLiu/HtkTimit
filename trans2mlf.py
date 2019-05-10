@@ -7,7 +7,7 @@ import logging
 
 def trans_line_to_mlf_lines(trans_line):
     lab_name, *words = trans_line.split()
-    pattern = lab_name + '.lab'
+    pattern = ''.join(['"', lab_name, '.lab', '"'])
     mlf_lines = [pattern]
     mlf_lines.extend(words)
     mlf_lines.extend(['.'])

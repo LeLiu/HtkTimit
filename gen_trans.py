@@ -4,7 +4,9 @@
 import os
 import argparse
 import logging
+import util
 
+"""
 def dir_to_path_list(dir_path, path_list, ext_name):
     for file_name in os.listdir(dir_path):
         file_path = os.path.join(dir_path, file_name)
@@ -20,7 +22,6 @@ def dir_to_path_list(dir_path, path_list, ext_name):
 def gen_trans_file_list(dir_path):
     trans_list = []
     return dir_to_path_list(dir_path, trans_list, '.txt')
-
 def write_dict(dic, file_path):
     line_num = 0
     with open(file_path, 'w') as f:
@@ -28,12 +29,16 @@ def write_dict(dic, file_path):
             f.write('{0} {1}\n'.format(key, dic[key]))
             line_num += 1
     return line_num
+"""
 
 def format_word(word):
-    word = word.upper()
+    word = word.split('~')[0]
     chrs =  list(filter(lambda c : c.isalpha() or c == "'" or c == "-", word))
     word = ''.join(chrs)
-    word_temp = word.replace('-', '').replace("'", '')
+    word = word.replace("'", '_')
+    word = word.upper()
+
+    word_temp = word.replace('-', '').replace('_', '')
     if len(word_temp) > 0:
         return word
     else:
@@ -42,6 +47,7 @@ def format_word(word):
 def trans_files_to_dict(trans_list):
     dic = {}
     for tf_path in trans_list:
+        print(tf_path)
         with open(tf_path, 'r') as tf:
             line = tf.readline()
             _, _, *words = line.split()
@@ -66,9 +72,9 @@ def _main():
     args = _parse_args()
     logging.getLogger().setLevel(logging.INFO)
 
-    trans_file_list = gen_trans_file_list(args.data_path)
+    trans_file_list = util.gen_path_list(args.data_path, ext='.txt')
     trans_dict = trans_files_to_dict(trans_file_list)
-    line_num = write_dict(trans_dict, args.trans_path)
+    line_num = util.write_dict(trans_dict, args.trans_path)
 
     logging.info('{} transcriptions processed.'.format(line_num))
     return 0
