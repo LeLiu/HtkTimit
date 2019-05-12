@@ -22,7 +22,6 @@ def format_word(word):
 def trans_files_to_dict(trans_list):
     dic = {}
     for tf_path in trans_list:
-        print(tf_path)
         with open(tf_path, 'r') as tf:
             line = tf.readline()
             _, _, *words = line.split()
