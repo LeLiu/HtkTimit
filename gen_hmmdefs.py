@@ -10,6 +10,7 @@ def read_hmm_proto(proto_file):
     with open(proto_file, 'r') as f:
         lines = f.readlines()
         for idx, line in enumerate(lines):
+            line = line.strip()
             if line.startswith('~h'):
                 macros = lines[:idx]
                 proto = lines[idx:]

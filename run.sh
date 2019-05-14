@@ -6,7 +6,7 @@ log=log
 
 if [ ! -d $exp ]; then mkdir -p $exp || exit 1; fi
 if [ ! -d $log ]; then mkdir -p $log || exit 1; fi
-#<< COMMENT
+<< COMMENT
 # create transcription file for training set.
 python gen_trans.py $data/train $exp/train_trans || exit 1
 
@@ -37,9 +37,26 @@ HCopy -D -A -T 1 -C config/hcopy.conf -S exp/train_feat_scp
 
 awk '{print $2}' $exp/train_feat_scp > $exp/train_scp
 HCompV -D -A -T 1 -C config/hcompv.conf -f 0.01 -m -S $exp/train_scp -M hmm/0 hmm/proto
-#COMMENT
+
 python gen_hmmdefs.py hmm/0/proto $exp/monophones hmm/0/hmmdefs
 
+mkdir hmm/2
+mkdir hmm/3
 HERest -D -A -T 1 -C config/hcompv.conf -I exp/train_phone_mlf -t 250 150 1000 -S exp/train_scp -H hmm/0/macros -H hmm/0/hmmdefs  -M hmm/1 exp/monophones
+HERest -D -A -T 1 -C config/hcompv.conf -I exp/train_phone_mlf -t 250 150 1000 -S exp/train_scp -H hmm/1/macros -H hmm/1/hmmdefs  -M hmm/2 exp/monophones
+HERest -D -A -T 1 -C config/hcompv.conf -I exp/train_phone_mlf -t 250 150 1000 -S exp/train_scp -H hmm/2/macros -H hmm/2/hmmdefs  -M hmm/3 exp/monophones
+
+COMMENT
+# Step 7. Fixing the Silence Models
+mkdir hmm/4
+python sil2sp.py hmm/3/hmmdefs hmm/4/sp
+cat hmm/3/hmmdefs hmm/4/sp > hmm/4/hmmdefs
+cp hmm/3/macros hmm/4/macros
+
+cp $exp/monophones $exp/monophones_sp
+echo sp >> $exp/monophones_sp
+mkdir hmm/5
+HHEd -D -A -T 1 -H hmm/4/macros -H hmm/4/hmmdefs -M hmm/5 ded/sil.hed $exp/monophones_sp
+
 
 

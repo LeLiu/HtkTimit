@@ -21,14 +21,15 @@ def format_phones(phones):
     return phones
 
 def format_dict(src_file, dst_file):
-    src_dict = util.read_dict(src_file, comment=';')
+    src_dict = util.read_multidict(src_file, comment=';')
     dst_dict = {}
-    for word, phones in src_dict.items():
+    for word, phones_list in src_dict.items():
         word = format_word(word)
-        phones = format_phones(phones)
-        dst_dict[word] = phones
-    dst_dict = util.sort_dict(dst_dict)
-    return util.write_dict(dst_dict, dst_file)
+        for phones in phones_list:
+            phones = format_phones(phones)
+            util.insert_multidict(dst_dict, word, phones)
+    dst_dict = util.sort_multidict(dst_dict)
+    return util.write_multidict(dst_dict, dst_file)
 
 def _parse_args():
     parser = argparse.ArgumentParser(
