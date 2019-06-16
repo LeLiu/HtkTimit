@@ -51,7 +51,6 @@ HERest -D -A -T 1 -C config/hcompv.conf -I exp/train_phone_mlf -t 250 150 1000 -
 HERest -D -A -T 1 -C config/hcompv.conf -I exp/train_phone_mlf -t 250 150 1000 -S exp/train_scp -H hmm/1/macros -H hmm/1/hmmdefs  -M hmm/2 exp/monophones
 HERest -D -A -T 1 -C config/hcompv.conf -I exp/train_phone_mlf -t 250 150 1000 -S exp/train_scp -H hmm/2/macros -H hmm/2/hmmdefs  -M hmm/3 exp/monophones
 
-COMMENT
 
 # Step 7. Fixing the Silence Models
 mkdir hmm/4
@@ -69,9 +68,10 @@ mkdir hmm/7
 HERest -D -A -T 1 -C config/hcompv.conf -I exp/train_phone_mlf -t 250 150 1000 -S exp/train_scp -H hmm/5/macros -H hmm/5/hmmdefs  -M hmm/6 exp/monophones_sp
 HERest -D -A -T 1 -C config/hcompv.conf -I exp/train_phone_mlf -t 250 150 1000 -S exp/train_scp -H hmm/6/macros -H hmm/6/hmmdefs  -M hmm/7 exp/monophones_sp
 
+COMMENT
 # Step 8. Realing the Training Data
-
-HVite -l '*' -o SWT -b silence -C config/hcompv.conf -a -H hmm/7/macros -H hmm7/hmmdefs -i exp/aligned_mlf -m -t 250 150 1000 -y lab -I train_mlf -S train_scp timit_dict exp/monophones_sp
+echo '<SIL> sil' | cat - exp/timit_dic > exp/timit_dict_sil
+HVite -l '*' -o SWT -b '<SIL>' -C config/hcompv.conf -a -H hmm/7/macros -H hmm/7/hmmdefs -i exp/aligned_mlf -m -t 250 150 1000 -y lab -I exp/train_mlf -S exp/train_scp exp/timit_dict_sil exp/monophones_sp
 mkdir hmm/8
 mkdir hmm/9
 HERest -D -A -T 1 -C config/hcompv.conf -I exp/aligned_mlf -t 250 150 1000 -S exp/train_scp -H hmm/7/macros -H hmm/7/hmmdefs  -M hmm/8 exp/monophones_sp
