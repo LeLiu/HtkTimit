@@ -71,4 +71,8 @@ HERest -D -A -T 1 -C config/hcompv.conf -I exp/train_phone_mlf -t 250 150 1000 -
 
 # Step 8. Realing the Training Data
 
-#HVite -l '*' -o SWT -b silence -C config -a -H hmm/7/macros -H hmm7/hmmdefs -i aligned.mlf -m -t 250 150 1000 -y lab -I words.mlf -S train.scp dict exp/monophones_sp
+HVite -l '*' -o SWT -b silence -C config/hcompv.conf -a -H hmm/7/macros -H hmm7/hmmdefs -i exp/aligned_mlf -m -t 250 150 1000 -y lab -I train_mlf -S train_scp timit_dict exp/monophones_sp
+mkdir hmm/8
+mkdir hmm/9
+HERest -D -A -T 1 -C config/hcompv.conf -I exp/aligned_mlf -t 250 150 1000 -S exp/train_scp -H hmm/7/macros -H hmm/7/hmmdefs  -M hmm/8 exp/monophones_sp
+HERest -D -A -T 1 -C config/hcompv.conf -I exp/aligned_mlf -t 250 150 1000 -S exp/train_scp -H hmm/8/macros -H hmm/8/hmmdefs  -M hmm/9 exp/monophones_sp
