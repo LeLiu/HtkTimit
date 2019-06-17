@@ -76,3 +76,10 @@ mkdir hmm/8
 mkdir hmm/9
 HERest -D -A -T 1 -C config/hcompv.conf -I exp/aligned_mlf -t 250 150 1000 -S exp/train_scp -H hmm/7/macros -H hmm/7/hmmdefs  -M hmm/8 exp/monophones_sp
 HERest -D -A -T 1 -C config/hcompv.conf -I exp/aligned_mlf -t 250 150 1000 -S exp/train_scp -H hmm/8/macros -H hmm/8/hmmdefs  -M hmm/9 exp/monophones_sp
+
+# Step 9. Making Triphones from Monophones
+HLEd -n triphones1 -l '*' -i wintri.mlf mktri.led aligned_mlf
+
+# Step 10. Making Tied-State Triphones
+
+# Step 11. Recognising the Test Data
