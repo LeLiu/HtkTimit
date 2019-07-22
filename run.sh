@@ -68,7 +68,6 @@ mkdir hmm/7
 HERest -D -A -T 1 -C config/hcompv.conf -I exp/train_phone_mlf -t 250 150 1000 -S exp/train_scp -H hmm/5/macros -H hmm/5/hmmdefs  -M hmm/6 exp/monophones_sp
 HERest -D -A -T 1 -C config/hcompv.conf -I exp/train_phone_mlf -t 250 150 1000 -S exp/train_scp -H hmm/6/macros -H hmm/6/hmmdefs  -M hmm/7 exp/monophones_sp
 
-COMMENT
 # Step 8. Realing the Training Data
 echo '<SIL> sil' | cat - exp/timit_dic > exp/timit_dict_sil
 HVite -l '*' -o SWT -b '<SIL>' -C config/hcompv.conf -a -H hmm/7/macros -H hmm/7/hmmdefs -i exp/aligned_mlf -m -t 250 150 1000 -y lab -I exp/train_mlf -S exp/train_scp exp/timit_dict_sil exp/monophones_sp
