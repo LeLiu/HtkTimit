@@ -51,7 +51,6 @@ HERest -D -A -T 1 -C config/hcompv.conf -I exp/train_phone_mlf -t 250 150 1000 -
 HERest -D -A -T 1 -C config/hcompv.conf -I exp/train_phone_mlf -t 250 150 1000 -S exp/train_scp -H hmm/1/macros -H hmm/1/hmmdefs  -M hmm/2 exp/monophones
 HERest -D -A -T 1 -C config/hcompv.conf -I exp/train_phone_mlf -t 250 150 1000 -S exp/train_scp -H hmm/2/macros -H hmm/2/hmmdefs  -M hmm/3 exp/monophones
 
-COMMENT
 
 # Step 7. Fixing the Silence Models
 mkdir hmm/4
@@ -76,3 +75,8 @@ mkdir hmm/8
 mkdir hmm/9
 HERest -D -A -T 1 -C config/hcompv.conf -I exp/aligned_mlf -t 250 150 1000 -S exp/train_scp -H hmm/7/macros -H hmm/7/hmmdefs  -M hmm/8 exp/monophones_sp
 HERest -D -A -T 1 -C config/hcompv.conf -I exp/aligned_mlf -t 250 150 1000 -S exp/train_scp -H hmm/8/macros -H hmm/8/hmmdefs  -M hmm/9 exp/monophones_sp
+
+COMMENT
+# Step 9 Make Triphone frome Monophones
+
+HLEd -n triphones1 -l '*' -i exp/wintri_mlf ded/mktri.led exp/aligned_mlf
