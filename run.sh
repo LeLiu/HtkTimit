@@ -79,7 +79,9 @@ HERest -D -A -T 1 -C config/hcompv.conf -I exp/aligned_mlf -t 250 150 1000 -S ex
 COMMENT
 # Step 9 Make Triphone frome Monophones
 
-HLEd -n triphones1 -l '*' -i exp/wintri_mlf ded/mktri.led exp/aligned_mlf
+HLEd -D -A -T 1 -n exp/triphones1 -l '*' -i exp/wintri_mlf ded/mktri.led exp/aligned_mlf
+
+python gen_mktrihed.py exp/monophones ../exp/triphones1 ded/mktri.hed
 
 # Step 10. Making Tied-State Triphones
 
