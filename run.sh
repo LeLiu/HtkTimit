@@ -79,10 +79,18 @@ HERest -D -A -T 1 -C config/hcompv.conf -I exp/aligned_mlf -t 250 150 1000 -S ex
 COMMENT
 # Step 9 Make Triphone frome Monophones
 
-HLEd -D -A -T 1 -n exp/triphones1 -l '*' -i exp/wintri_mlf ded/mktri.led exp/aligned_mlf
+HLEd -D -A -T 1 -n exp/triphones1 -l '*' -i exp/wintri.mlf ded/mktri.led exp/aligned_mlf
 
-python gen_mktrihed.py exp/monophones ../exp/triphones1 ded/mktri.hed
+python gen_mktrihed.py exp/monophones_sp exp/triphones1 ded/mktri.hed
 
+mkdir hmm/10
+HHEd -D -A -T 1 -H hmm/9/macros -H hmm/9/hmmdefs -M hmm/10 ded/mktri.hed exp/monophones_sp
+
+mkdir hmm/11
+mkdir hmm/12
+
+HERest -D -A -T 1 -C config/hcompv.conf -I exp/wintri.mlf -t 250 150 1000 -s stats -S exp/train_scp -H hmm/10/macros -H hmm/10/hmmdefs  -M hmm/11 exp/triphones1
+HERest -D -A -T 1 -C config/hcompv.conf -I exp/wintri.mlf -t 250 150 1000 -s stats -S exp/train_scp -H hmm/11/macros -H hmm/11/hmmdefs  -M hmm/12 exp/triphones1
 # Step 10. Making Tied-State Triphones
 
 # Step 11. Recognising the Test Data
